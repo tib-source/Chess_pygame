@@ -16,7 +16,7 @@ later on i can check a move of a peice with the "canMove" and the use the end.se
 
 
 class Move:
-    def __init__(self, Player, start, end) -> None:
+    def __init__(self, Player:object, start:object, end:object) -> None:
         self.Player = Player
         self.start = start 
         self.end = end 

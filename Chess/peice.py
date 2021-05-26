@@ -32,8 +32,8 @@ class Piece():
         pygame.display.update()
 
 class King(Piece):
-    def __init__(self,row,col,color) -> None:
-        super(King, self).__init__(row,col,color)
+    def __init__(self,col,row,color) -> None:
+        super(King, self).__init__(col,row,color)
         self.isCastled = False
         self.name = "King"
     
@@ -59,16 +59,16 @@ class King(Piece):
 
     
 class Queen(Piece):
-    def __init__(self,row,col,color) -> None:
-        super(Queen, self).__init__(row,col,color)
+    def __init__(self,col,row,color) -> None:
+        super(Queen, self).__init__(col,row,color)
         self.name = "Queen"
     def canMove(self, board:object, start:object, end:object) -> bool:
         pass
 
 
 class Knight(Piece):
-    def __init__(self,row,col,color) -> None:
-        super(Knight, self).__init__(row,col,color)
+    def __init__(self,col,row,color) -> None:
+        super(Knight, self).__init__(col,row,color)
         self.name = "Knight"
 
     def canMove(self, board:object, start:object, end:object):
@@ -77,8 +77,8 @@ class Knight(Piece):
 
 
 class Bishop(Piece):
-    def __init__(self,row,col,color) -> None:
-        super(Bishop, self).__init__(row,col,color)
+    def __init__(self,col,row,color) -> None:
+        super(Bishop, self).__init__(col,row,color)
         self.name = "Bishop"
 
     def canMove(self, board:object, start:object, end:object):
@@ -87,8 +87,8 @@ class Bishop(Piece):
   
 
 class Rook(Piece):
-    def __init__(self,row,col,color) -> None:
-        super(Rook, self).__init__(row,col,color)
+    def __init__(self,col,row,color) -> None:
+        super(Rook, self).__init__(col,row,color)
         self.name = "Rook"
 
     def canMove(self, board:object, start:object, end:object):
@@ -96,8 +96,8 @@ class Rook(Piece):
 
 
 class Pawn(Piece):
-    def __init__(self, row,col, color) -> None:
-        super(Pawn, self).__init__(row,col,color)
+    def __init__(self, col,row, color) -> None:
+        super(Pawn, self).__init__(col,row,color)
         self.name = "Pawn"
         self.firstMove = True
     
