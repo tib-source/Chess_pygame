@@ -1,6 +1,5 @@
 import pygame
 import sys
-from abc import ABC, abstractmethod
 from Chess.constants import *
 
 # Game Logic
