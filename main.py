@@ -20,8 +20,18 @@ class Move:
         self.Player = Player
         self.start = start 
         self.end = end 
-        self.PieceMoved = start.Piece
+        self.PieceMoved: object
+        self.PieceKilled: object
         self.castilingMove = False
+    
+    def changePos(self):
+        if not self.castilingMove:
+            if self.start.Peice.canMove:
+                self.PieceKilled = self.end.Peice if self.end.Peice else None
+                self.start.Piece, self.end.Piece = self.start.Piece
+        pass
+    
+
 
     #TODO : FINISH THIS CLASS
 
@@ -37,14 +47,14 @@ def main():
     board = Board()
     board.drawBoard(screen)
     board.create_board(screen)
-    pp = pprint.PrettyPrinter(indent=1)
-    pp.pprint(board.gameBoard)
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(board.board)
     pp.pprint(board.board[0][1].x)
     pp.pprint(board.board[0][1].y)
     pygame.display.flip()
     run = True
-    while run:
 
+    while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return

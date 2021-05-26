@@ -83,4 +83,8 @@ class Board:
             Pawns["p_"+str(i)+"_w"] = Pawn_ = Pawn( self.gameBoard[-2][i][0], self.gameBoard[-2][i][1], "White")
             Pawn_.draw(Pawn_.color, screen)
             self.board[1].append( Spot( 1*SQUARE, i*SQUARE, Pawn_ ))
-
+        empty = {}
+        for i in range(2 , 6):
+            for j in range(0, BOARD_LENGTH):
+                empty[f"spot({j},{i})"] = Emp =Spot(j , i, piece=None)
+                self.board[i].append(Emp)
