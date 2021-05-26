@@ -1,6 +1,6 @@
 class Spot:
-    def __init__(self,x:int, y:int, Piece:object) -> None:
-        self.Piece = Piece
+    def __init__(self,x:int, y:int, piece:object) -> None:
+        self.Piece = piece
         self.x = x
         self.y = y
 

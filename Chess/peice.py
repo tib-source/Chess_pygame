@@ -1,9 +1,8 @@
 import pygame
-from .spot import Spot
-from .constants import SQUARE, ASSETS_DIR
+from .constants import SQUARE
 import os
 class Piece():
-    def __init__(self, row:int, col:int, color:str) -> None:
+    def __init__(self, col:int, row:int, color:str) -> None:
         self.killed = False
         self.color = color
         self.row = row
@@ -13,7 +12,6 @@ class Piece():
         self.x:int
         self.y:int
         self.getPos()
-        self.draw()
 
     def setWhite(self):
         self.white = True
@@ -22,20 +20,22 @@ class Piece():
         self.killed = True
         
     def getPos(self):
-        self.x = self.col*SQUARE - SQUARE//2
-        self.y = self.row*SQUARE - SQUARE//2
+        self.x = self.col*SQUARE 
+        self.y = self.row*SQUARE 
 
-    def draw(self, window, color):
+    def draw(self, color, screen):
         if self.image == None:
-            self.image = pygame.image.load(os.path.join(ASSETS_DIR,f"{self.name.upper()}_{color.upper()}.png"))
-        self.rect = self.image.get_rect(self.x,self.y)
+            self.image = pygame.image.load(f"asset\\{self.name.upper()}_{color.upper()}.png").convert_alpha()
+        screen.blit(self.image, pygame.Rect(self.x, self.y, 10 ,10 ))
+        pygame.display.update()
 
 class King(Piece):
-    def __init__(self,rol,col,color) -> None:
-        super.__init__(rol,col,color)
+    def __init__(self,row,col,color) -> None:
+        super(King, self).__init__(row,col,color)
         self.isCastled = False
+        self.name = "King"
     
-    def canMove(self, start:Spot, end:Spot) -> bool:
+    def canMove(self, start:object, end:object) -> bool:
         # TODO: write the conditions for a stalements and what not 
         if end.Piece.white == self.white:
             return False
@@ -58,44 +58,44 @@ class King(Piece):
     
 class Queen(Piece):
     def __init__(self,row,col,color) -> None:
-        super.__init__(row,col,color)
+        super(Queen, self).__init__(row,col,color)
         self.name = "Queen"
-    def canMove(self, board:object, start:Spot, end:Spot) -> bool:
+    def canMove(self, board:object, start:object, end:object) -> bool:
         pass
 
 
 class Knight(Piece):
     def __init__(self,row,col,color) -> None:
-        super.__init__(row,col,color)
+        super(Knight, self).__init__(row,col,color)
         self.name = "Knight"
 
-    def canMove(self, board:object, start:Spot, end:Spot):
+    def canMove(self, board:object, start:object, end:object):
         pass
 
 
 
 class Bishop(Piece):
     def __init__(self,row,col,color) -> None:
-        super.__init__(row,col,color)
+        super(Bishop, self).__init__(row,col,color)
         self.name = "Bishop"
 
-    def canMove(self, board:object, start:Spot, end:Spot):
+    def canMove(self, board:object, start:object, end:object):
         pass
 
   
 
 class Rook(Piece):
     def __init__(self,row,col,color) -> None:
-        super.__init__(row,col,color)
+        super(Rook, self).__init__(row,col,color)
         self.name = "Rook"
 
-    def canMove(self, board:object, start:Spot, end:Spot):
+    def canMove(self, board:object, start:object, end:object):
         pass
 
 
 class Pawn(Piece):
     def __init__(self, row,col, color) -> None:
-        super.__init__(row,col,color)
+        super(Pawn, self).__init__(row,col,color)
         self.name = "Pawn"
         self.firstMove = True
     
@@ -103,7 +103,7 @@ class Pawn(Piece):
         self.firstMove = False
         pass
 
-    def canMove(self, board:object, start:Spot, end:Spot):
+    def canMove(self, board:object, start:object, end:object):
         y  = end.y - start.x
         if self.firstMove == True:
             if end.Piece:

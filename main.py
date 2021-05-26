@@ -1,7 +1,7 @@
 from Chess.board import Board
 import pygame
 from Chess.constants import *
-
+import pprint
 # Game Logic
 
 """
@@ -36,7 +36,11 @@ def main():
     screen.fill(BLACK)
     board = Board()
     board.drawBoard(screen)
-
+    board.create_board(screen)
+    pp = pprint.PrettyPrinter(indent=1)
+    pp.pprint(board.gameBoard)
+    pp.pprint(board.board[0][1].x)
+    pp.pprint(board.board[0][1].y)
     pygame.display.flip()
     run = True
     while run:
