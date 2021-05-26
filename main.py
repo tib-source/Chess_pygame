@@ -1,5 +1,5 @@
+from Chess.board import Board
 import pygame
-import sys
 from Chess.constants import *
 
 # Game Logic
@@ -34,8 +34,8 @@ def main():
     size = (WIDTH,HEIGHT)
     screen = pygame.display.set_mode(size)
     screen.fill(BLACK)
-
-
+    board = Board()
+    board.drawBoard(screen)
 
     pygame.display.flip()
     run = True
