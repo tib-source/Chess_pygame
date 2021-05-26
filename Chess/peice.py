@@ -1,6 +1,7 @@
 import pygame
 from .constants import SQUARE
-import os
+
+
 class Piece():
     def __init__(self, col:int, row:int, color:str) -> None:
         self.killed = False
@@ -26,7 +27,8 @@ class Piece():
     def draw(self, color, screen):
         if self.image == None:
             self.image = pygame.image.load(f"asset\\{self.name.upper()}_{color.upper()}.png").convert_alpha()
-        screen.blit(self.image, pygame.Rect(self.x, self.y, 10 ,10 ))
+            self.image = pygame.transform.scale(self.image, (80, 80))
+        screen.blit(self.image, pygame.Rect(self.x+10, self.y+10, 10 ,10 ))
         pygame.display.update()
 
 class King(Piece):
