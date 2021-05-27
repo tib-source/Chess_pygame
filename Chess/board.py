@@ -2,18 +2,21 @@ import pygame
 from .peice import *
 from .spot import Spot
 from .constants import (
-    WIDTH,
+    BLACK,
     BOARD_LENGTH,
     WHITE,
+    SQUARE,
 )
 
 
 class Board:
     def __init__(self) -> None:
-        self.SQUARE = WIDTH//BOARD_LENGTH
         self.board = [[] for _ in range(8)]
-        self.gameBoard = [[(col, row) for col in range(0, BOARD_LENGTH)]for row in range(0, BOARD_LENGTH)]
+        self.gameBoard = [[(col , row) for col in range(0, BOARD_LENGTH)]for row in range(0, BOARD_LENGTH)]
         
+
+
+#TODO: Make a constant for the initial rows and cols of the peices
 
     def drawBoard(self,screen):
         for x in range(BOARD_LENGTH):
@@ -44,13 +47,13 @@ class Board:
 
         for i, x in enumerate(wh_list):
             x.draw(x.color, screen)
-            self.board[7].append( Spot( 0*SQUARE, i*SQUARE, x ))
+            self.board[0].append( Spot( i*SQUARE, 0*SQUARE, x ))
 
         Pawns = {}
         for i in range(0, BOARD_LENGTH):
             Pawns["p_"+str(i)+"_b"] = Pawn_ = Pawn( self.gameBoard[1][i][0], self.gameBoard[1][i][1], "Black")
             Pawn_.draw(Pawn_.color, screen)
-            self.board[6].append( Spot( 1*SQUARE, i*SQUARE, Pawn_ ))
+            self.board[1].append( Spot( i*SQUARE, 1*SQUARE, Pawn_ ))
 
 
         #White Peices  
@@ -76,15 +79,31 @@ class Board:
 
         for i, x in enumerate(wh_list):
             x.draw(x.color, screen)
-            self.board[0].append( Spot( 0*SQUARE, i*SQUARE, x ))
+            self.board[7].append( Spot( i*SQUARE, 7*SQUARE, x ))
 
         
         for i in range(0, BOARD_LENGTH):
             Pawns["p_"+str(i)+"_w"] = Pawn_ = Pawn( self.gameBoard[-2][i][0], self.gameBoard[-2][i][1], "White")
             Pawn_.draw(Pawn_.color, screen)
-            self.board[1].append( Spot( 1*SQUARE, i*SQUARE, Pawn_ ))
+            self.board[6].append( Spot( i*SQUARE, 6*SQUARE, Pawn_ ))
+
         empty = {}
         for i in range(2 , 6):
             for j in range(0, BOARD_LENGTH):
-                empty[f"spot({j},{i})"] = Emp =Spot(j , i, piece=None)
+                empty[f"spot({j},{i})"] = Emp = Spot(j*SQUARE , i*SQUARE, piece=0)
                 self.board[i].append(Emp)
+
+    def move(self, start, end, screen):
+        print(start.Piece.color)
+        print(end.__dict__)
+        if start.Piece.canMove(start,end):
+            #self.PieceKilled = self.end.Peice if self.end.Peice else None
+            end.Piece, start.Piece = start.Piece, end.Piece
+            self.board[start.row][start.col], self.board[end.row][end.col] = self.board[end.row][end.col], self.board[start.row][start.col]
+            end.Piece.col, end.Piece.row  = end.col,end.row 
+            pygame.draw.rect(screen, start.color , pygame.Rect(start.x,start.y,SQUARE,SQUARE))
+            end.Piece.getPos()
+            end.Piece.draw(end.Piece.color, screen)
+            pygame.display.update()
+        else:
+            raise IndexError("This peice cant move there")

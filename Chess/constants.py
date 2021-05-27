@@ -3,6 +3,8 @@ HEIGHT = 800
 BOARD_LENGTH = ROWS = COLS = 8
 SQUARE = WIDTH//ROWS
 
+#FPS 
+FPS = 60
 
 #Colour (r,g,b)
 BLACK = (23,24,59)
@@ -12,3 +14,5 @@ BACK_COLOR = (201,237,220)
 
 #Path
 ASSETS_DIR= "..\\assets"
+
+

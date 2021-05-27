@@ -28,7 +28,7 @@ class Piece():
         if self.image == None:
             self.image = pygame.image.load(f"asset\\{self.name.upper()}_{color.upper()}.png").convert_alpha()
             self.image = pygame.transform.scale(self.image, (80, 80))
-        screen.blit(self.image, pygame.Rect(self.x+10, self.y+10, 10 ,10 ))
+        screen.blit(self.image, pygame.Rect(self.x+10, self.y+10, 100 ,10 ))
         pygame.display.update()
 
 class King(Piece):
@@ -62,7 +62,7 @@ class Queen(Piece):
     def __init__(self,col,row,color) -> None:
         super(Queen, self).__init__(col,row,color)
         self.name = "Queen"
-    def canMove(self, board:object, start:object, end:object) -> bool:
+    def canMove(self, start:object, end:object) -> bool:
         pass
 
 
@@ -71,7 +71,7 @@ class Knight(Piece):
         super(Knight, self).__init__(col,row,color)
         self.name = "Knight"
 
-    def canMove(self, board:object, start:object, end:object):
+    def canMove(self, start:object, end:object):
         pass
 
 
@@ -81,7 +81,7 @@ class Bishop(Piece):
         super(Bishop, self).__init__(col,row,color)
         self.name = "Bishop"
 
-    def canMove(self, board:object, start:object, end:object):
+    def canMove(self, start:object, end:object):
         pass
 
   
@@ -91,7 +91,7 @@ class Rook(Piece):
         super(Rook, self).__init__(col,row,color)
         self.name = "Rook"
 
-    def canMove(self, board:object, start:object, end:object):
+    def canMove(self, start:object, end:object):
         pass
 
 
@@ -105,8 +105,8 @@ class Pawn(Piece):
         self.firstMove = False
         pass
 
-    def canMove(self, board:object, start:object, end:object):
-        y  = end.y - start.x
+    def canMove(self, start:object, end:object):
+        y  = end.row - start.row
         if self.firstMove == True:
             if end.Piece:
                 return False

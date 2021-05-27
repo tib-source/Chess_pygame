@@ -15,21 +15,20 @@ later on i can check a move of a peice with the "canMove" and the use the end.se
 
 
 
-class Move:
-    def __init__(self, Player:object, start:object, end:object) -> None:
-        self.Player = Player
-        self.start = start 
-        self.end = end 
-        self.PieceMoved: object
-        self.PieceKilled: object
-        self.castilingMove = False
+# class Move:
+#     def __init__(self, Player:object, start:object, end:object) -> None:
+#         self.Player = Player
+#         self.start = start 
+#         self.end = end 
+#         self.PieceMoved: object
+#         self.PieceKilled: object
+#         self.castilingMove = False
     
-    def changePos(self):
-        if not self.castilingMove:
-            if self.start.Peice.canMove:
-                self.PieceKilled = self.end.Peice if self.end.Peice else None
-                self.start.Piece, self.end.Piece = self.start.Piece
-        pass
+#     def changePos(self):
+#         if not self.castilingMove:
+#             if self.start.Peice.canMove:
+#                 self.start.Piece, self.end.Piece = self.start.Piece
+#         pass
     
 
 
@@ -44,20 +43,26 @@ def main():
     size = (WIDTH,HEIGHT)
     screen = pygame.display.set_mode(size)
     screen.fill(BLACK)
+
+    clock = pygame.time.Clock()
+
     board = Board()
     board.drawBoard(screen)
     board.create_board(screen)
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(board.board)
-    pp.pprint(board.board[0][1].x)
-    pp.pprint(board.board[0][1].y)
-    pygame.display.flip()
+    pprint.pprint(board.gameBoard)
+    
     run = True
-
+    board.move( start=board.board[1][4], end=board.board[2][4], screen=screen)
+    pygame.display.flip()
+    ###
     while run:
+        clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+
         pygame.display.update()
     pygame.quit()
 
