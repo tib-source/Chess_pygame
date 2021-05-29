@@ -1,3 +1,4 @@
+from Chess.game import Game
 from Chess.board import Board
 import pygame
 from Chess.constants import *
@@ -10,8 +11,6 @@ Instead, ill create an object for every single spot and for them give them a set
 later on i can check a move of a peice with the "canMove" and the use the end.setPiece to complete it 
 
 """
-
-
 
 
 
@@ -33,7 +32,11 @@ later on i can check a move of a peice with the "canMove" and the use the end.se
 
 
     #TODO : FINISH THIS CLASS
-
+def get_cr(pos):
+    """ takes in a x and y value and returns the col and row that correspond to that """
+    col = pos[0]//SQUARE
+    row = pos[1]//SQUARE
+    return col,row
 
 # Pygame GUI 
 def main():
@@ -43,27 +46,43 @@ def main():
     size = (WIDTH,HEIGHT)
     screen = pygame.display.set_mode(size)
     screen.fill(BLACK)
-
+    pygame.display.set_caption('Chess')
     clock = pygame.time.Clock()
 
-    board = Board()
-    board.drawBoard(screen)
-    board.create_board(screen)
-    pprint.pprint(board.gameBoard)
-    
+    game = Game(screen)
+    game.create()
+    pprint.pprint(game.board.gameBoard)
     run = True
-    board.move( start=board.board[1][4], end=board.board[2][4], screen=screen)
-    pygame.display.flip()
     ###
+    selected = ()
+    clicks = []
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                if get_cr(pygame.mouse.get_pos()) == selected: # this checks to see if the same square has been pressed twice by the user
+                    selected = ()
+                    clicks = []
+                else:
+                    selected = get_cr(pygame.mouse.get_pos())
+                    clicks.append(selected)
+                if len(clicks) == 2:
+                    start = game.board.getSpot(clicks[0])
+                    end = game.board.getSpot(clicks[1])
+                    game.board.move(start,end, game.screen)
+                    print(start.Piece)
+                    print(end.Piece) 
+                    selected = ()
+                    clicks = []
 
-        pygame.display.update()
+
+
+
+
+                # start = game.board.getSpot(get_cr(selected))
+
     pygame.quit()
 
 if __name__ == "__main__":

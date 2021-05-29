@@ -1,4 +1,4 @@
-from Chess.constants import SQUARE, WHITE, BLACK
+from Chess.constants import ROWS, SQUARE, WHITE, BLACK
 
 
 class Spot:
@@ -8,7 +8,11 @@ class Spot:
         self.y = y
         self.col = x//SQUARE
         self.row = y//SQUARE
-        self.color = BLACK if (x+y)%2 == 0 else WHITE
+        self.mod = (self.col + self.row)%2
+        if self.mod == 0:
+            self.color = WHITE
+        else:
+            self.color = BLACK
     # #get pre-existing values for the spot
     def get_Piece(self):
         return self.Peice

@@ -1,12 +1,17 @@
+from pygame import draw
+from Chess.constants import BLACK
+
+
 class Player:
     def __init__(self) -> None:
-        self.whiteSide = False
+        self.turn = BLACK
+        self.selected = None
         self.moves = [] 
         self.listKilled = []
-    def setWhite(self):
-        self.whiteSide = True
-        pass
+        self.valid_moves = []
 
+    def update(self)
+        self.board. 
     def addKill(self, piece:object) -> None:
         self.listKilled.append(piece)
         pass
