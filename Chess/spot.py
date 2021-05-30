@@ -31,4 +31,6 @@ class Spot:
     def set_Y(self, y:int):
         self.x = y
         
+    def __repr__(self) -> str:
+        return f"({col},{row})"
 

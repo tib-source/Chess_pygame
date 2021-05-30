@@ -14,6 +14,9 @@ class Piece():
         self.y:int
         self.getPos()
         self.possible_moves = []
+    
+    def __repr__(self) -> str:
+        return f"{self.color} {self.name} at ({self.col},{self.row})"
 
     def setWhite(self):
         self.white = True
@@ -32,6 +35,7 @@ class Piece():
             self.image = pygame.transform.scale(self.image, (80, 80))
         screen.blit(self.image, pygame.Rect(self.x+10, self.y+10, 100 ,10 ))
         pygame.display.update()
+    
 
 class King(Piece):
     def __init__(self,col,row,color) -> None:
@@ -75,7 +79,15 @@ class Knight(Piece):
         self.name = "Knight"
 
     def canMove(self, start:object, end:object, board:object):
-        pass
+        x = abs(start.col - end.col)
+        y = abs(start.row - end.row)
+        print(x)
+        print(y)
+        if x == 2 and y == 1:
+            return True 
+        elif x==1 and y==2:
+            return True 
+        return False
 
 
 
@@ -84,8 +96,28 @@ class Bishop(Piece):
         super(Bishop, self).__init__(col,row,color)
         self.name = "Bishop"
 
+    
     def canMove(self, start:object, end:object, board:object):
-        pass
+        self.possible_moves = []
+        start_spot = (start.col, start.row)
+        end_spot = (end.col,end.row)
+        def getDiagonal_moves(col_row):
+            _colrow = list(col_row)
+            row = _colrow.pop()
+            col ,= _colrow
+            possible_moves = []
+            directions = [[1,1],[-1,1],[1,-1],[-1,-1]]
+            for dir in directions:
+                d2 = dir.pop()
+                d1 ,= dir 
+                moves = [board[row + (j)*d2][(x)*d1 + col] for x,j in enumerate(range(BOARD_LENGTH)) if 0 <= col + (x)*d1 < BOARD_LENGTH and 0 <= (j)*d2 + row < BOARD_LENGTH and (board[row + (j)*d2][(x)*d1 + col].Piece == 0 or board[row + (j)*d2][(x)*d1 + col].Piece.color != self.color)]
+                possible_moves += moves
+            return set(possible_moves)
+        self.possible_moves += list(getDiagonal_moves(start_spot))
+        if end in self.possible_moves:
+            return True 
+        return False
+
 
   
 
@@ -97,13 +129,28 @@ class Rook(Piece):
 
     def canMove(self, start:object, end:object, board:object):
         self.possible_moves = []
-        for i in board[start.Piece.row]:
-            if i.Piece == 0 or i.Piece.color != self.color:
-                self.possible_moves.append(i)
+        for i in range(start.col-1, -1, -1):
+            spot = board[start.row][i]
+            if spot.Piece == 0 or spot.Piece.color != self.color:
+                self.possible_moves.append(spot)
+                continue
+            elif spot.Piece.color == self.color:
+                break
+        for i in range(start.col+1, BOARD_LENGTH):
+            spot = board[start.row][i]
+            if spot.Piece == 0 or spot.Piece.color != self.color:
+                self.possible_moves.append(spot)
                 continue
             elif i.Piece.color == self.color:
                 break
-        for i in range(BOARD_LENGTH):
+        for i in range(start.row+1, BOARD_LENGTH):
+            spot = board[i][start.col]
+            if spot.Piece == 0 or spot.Piece.color != self.color: 
+                self.possible_moves.append(board[i][start.Piece.col])
+                continue
+            elif spot.Piece.color == self.color:
+                break
+        for i in range(start.row-1, -1,-1):
             spot = board[i][start.col]
             if spot.Piece == 0 or spot.Piece.color != self.color: 
                 self.possible_moves.append(board[i][start.Piece.col])
