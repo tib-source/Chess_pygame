@@ -97,14 +97,16 @@ class Board:
                 empty[f"spot({j},{i})"] = Emp = Spot(j*SQUARE , i*SQUARE, piece=0)
                 self.board[i].append(Emp)
 
-    def move(self, start, end, screen):
+    def move(self, start, end, screen) -> None:
         if start.Piece.canMove(start,end,self.board):
             #self.PieceKilled = self.end.Peice if self.end.Peice else None
             end.Piece, start.Piece = start.Piece, end.Piece
             end.Piece.col, end.Piece.row  = end.col,end.row 
             pygame.draw.rect(screen, start.color , pygame.Rect(start.x,start.y,SQUARE,SQUARE))
+            pygame.draw.rect(screen, end.color , pygame.Rect(end.x,end.y,SQUARE,SQUARE))
             end.Piece.getPos()
             end.Piece.draw(end.Piece.color, screen)
             pygame.display.update()
+            return True
         else:
-            print("This peice cant move there")
+            return False

@@ -54,8 +54,12 @@ def main():
     pprint.pprint(game.board.gameBoard)
     run = True
     ###
+
     selected = ()
     clicks = []
+
+
+
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -63,29 +67,34 @@ def main():
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if get_cr(pygame.mouse.get_pos()) == selected: # this checks to see if the same square has been pressed twice by the user
+                    clicks.clear()
                     selected = ()
-                    clicks = []
                 else:
                     selected = get_cr(pygame.mouse.get_pos())
                     clicks.append(selected)
 
                 if len(clicks) == 2:
+                    print(f"TURN {game.turn}")
                     start = game.board.getSpot(clicks[0])
                     end = game.board.getSpot(clicks[1])
                     if start.Piece == 0 or start == end:
-                        selected = ()
-                        clicks = []
+                        clicks.clear()
+                        selected = ()    
                         continue
-                    end = game.board.getSpot(clicks[1])
-                    game.board.move(start,end, game.screen)
-                    print(start.Piece)
-                    print(end.Piece) 
+                    elif start.Piece.color == game.turn:
+                        if game.board.move(start,end, game.screen):
+                            game.changeTurn()
+                            print(f"TURN CHANGED TO {game.turn}")
+                        else:
+                            print('Invalid Move','This peice cant move there')
+                            print(start.pos, end.pos)
+                            clicks.clear()
+                            selected = ()
+                            continue
+                    else:
+                        print("Wrong Trun", 'It is not your turn right now')
+                    clicks.clear()
                     selected = ()
-                    clicks = []
-
-
-
-
 
                 # start = game.board.getSpot(get_cr(selected))
 

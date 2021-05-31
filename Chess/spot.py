@@ -8,6 +8,7 @@ class Spot:
         self.y = y
         self.col = x//SQUARE
         self.row = y//SQUARE
+        self.pos = (self.col,self.row)
         self.mod = (self.col + self.row)%2
         if self.mod == 0:
             self.color = WHITE

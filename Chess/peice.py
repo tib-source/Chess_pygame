@@ -1,3 +1,4 @@
+from typing import final
 import pygame
 from .constants import BLACK, BOARD_LENGTH, SQUARE, WHITE
 
@@ -28,6 +29,17 @@ class Piece():
         self.y = self.row*SQUARE 
 
     def draw(self, color, screen):
+        try:
+            if self.promoted:
+                color_ = "WHITE" if WHITE == color else "BLACk" 
+                self.image = pygame.image.load(f"asset\\{self.name.upper()}_{color_.upper()}.png").convert_alpha()
+                self.image = pygame.transform.scale(self.image, (80, 80))
+                screen.blit(self.image, pygame.Rect(self.x+10, self.y+10, 100 ,10 ))
+                pygame.display.update()
+
+        except:
+            pass
+        
         if self.image == None:
             color_ = "WHITE" if WHITE == color else "BLACk" 
             self.image = pygame.image.load(f"asset\\{self.name.upper()}_{color_.upper()}.png").convert_alpha()
@@ -210,17 +222,22 @@ class Pawn(Piece):
     def promoteQueen(self):
         self.promoted = True
         self.name = "Queen"
-        self.draw()
 
     def canMove(self, start:object, end:object, board):
         y  = end.row - start.row
         x = end.col - start.col
         direction = 1 if self.color == BLACK else -1
+        final_row = 7 if self.color == BLACK else 0
         if not self.promoted:
             if (x == 1 or x == -1) and y == direction:
+                if end.Piece == 0:
+                    return False 
                 if end.Piece.color != self.color:
+                    if end.Piece.row == final_row:
+                        self.promoteQueen()
                     return True
-                else: return False
+                else:
+                    return False
             if x == 0:
                 if self.firstMove == True:
                     if end.Piece:
@@ -228,7 +245,11 @@ class Pawn(Piece):
                     elif y <= 2 :
                         self.firstMove = False
                         return True
-                return True if y == direction and end.Piece == 0 else False       
+                if y == direction and end.Piece == 0:
+                    if end.row == final_row:
+                        self.promoteQueen()
+                    return True
+                else: return False       
         else:
             self.possible_moves = []
             self.possible_moves += self.horizontal_moves(start,end,board)
