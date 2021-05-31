@@ -68,8 +68,14 @@ def main():
                 else:
                     selected = get_cr(pygame.mouse.get_pos())
                     clicks.append(selected)
+
                 if len(clicks) == 2:
                     start = game.board.getSpot(clicks[0])
+                    end = game.board.getSpot(clicks[1])
+                    if start.Piece == 0 or start == end:
+                        selected = ()
+                        clicks = []
+                        continue
                     end = game.board.getSpot(clicks[1])
                     game.board.move(start,end, game.screen)
                     print(start.Piece)

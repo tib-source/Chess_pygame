@@ -32,5 +32,5 @@ class Spot:
         self.x = y
         
     def __repr__(self) -> str:
-        return f"({col},{row})"
+        return f"({self.col},{self.row})"
 

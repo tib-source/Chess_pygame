@@ -10,8 +10,8 @@ class Player:
         self.listKilled = []
         self.valid_moves = []
 
-    def update(self)
-        self.board. 
+    def update(self):
+        pass
     def addKill(self, piece:object) -> None:
         self.listKilled.append(piece)
         pass
