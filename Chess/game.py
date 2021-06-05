@@ -2,6 +2,7 @@ from Chess.peice import King
 from Chess.constants import BLACK, BOARD_LENGTH, WHITE,SQUARE
 from .board import Board
 import pygame
+import pprint
 
 class Game:
     # chess_notation= {
@@ -49,8 +50,10 @@ class Game:
     ### TODO: This function need to be really fast so threading should probably be added
     def isChecked(self):
         self.Moves = {}
-        king = self.board.King_0_Black if self.turn == WHITE else self.board.King_0_WHITE
+        king = self.board.King_0_Black if self.turn == BLACK else self.board.King_0_WHITE
+        king_spot = self.board.getSpot(king.pos)
         self.friend_mov = {}
+        print(king)
         for y in range(BOARD_LENGTH):
             for x in self.gBoard[y]:
                 if x.Piece == 0: continue
@@ -61,8 +64,29 @@ class Game:
                     x.Piece.get_valid_moves(x,self.gBoard)
                     self.friend_mov[x] = x.Piece.possible_moves
 
-        if king.pos in (self.Moves.values()):
-            print("THE KING IS IN CHECKKKKKK")
+        possible = set().union(*self.Moves.values())
+        print(f"ENEMY MOVES {self.Moves}")
+        print("\n")
+        print(f"Friendly Moves {self.friend_mov} " )
+        print("\n")
+        print(king.pos)
+        print(f"possible movement of enemies: {possible}")
+        if king_spot in possible:
+            print(f" X IS {x}")
+            print(f" KING POSITION IS {king.pos}")
+            print(
+                    """
+    ┈┈╭━╱▔▔▔▔╲━╮┈┈┈
+    ┈┈╰╱╭▅╮╭▅╮╲╯┈┈┈
+    ╳┈┈▏╰┈▅▅┈╯▕┈┈┈┈
+    ┈┈┈╲┈╰━━╯┈╱┈┈╳┈
+    ┈┈┈╱╱▔╲╱▔╲╲┈┈┈┈
+    ┈╭━╮▔▏┊┊▕▔╭━╮┈╳
+    ┈┃┊┣▔╲┊┊╱▔┫┊┃┈┈
+    ┈╰━━━━╲╱━━━━╯┈╳
+                    """
+                
+                )
             return True
         return False
 

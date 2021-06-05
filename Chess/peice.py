@@ -6,13 +6,13 @@ class Piece():
     def __init__(self, col:int, row:int, color:str) -> None:
         self.killed = False
         self.color = color
-        self.row = row
-        self.col = col
+        self.row = int(row)
+        self.col = int(col)
         self.image = None
         self.name:str
         self.x:int
         self.y:int
-        self.pos = (col,row)
+        self.pos = (self.col,self.row)
         self.getPos()
         self.possible_moves = []
     
@@ -91,7 +91,6 @@ class Piece():
             for x,j in enumerate(range(1,BOARD_LENGTH),1):
                 if 0 <= col + (x)*d1 < BOARD_LENGTH and 0 <= (j)*d2 + row < BOARD_LENGTH: 
                     spot = board[ row + (j*d2)][col + (x*d1)]
-                    print(spot)
                     if spot.Piece == 0:
                         possible_moves.append(spot)
                     else:
@@ -228,7 +227,7 @@ class Pawn(Piece):
     
     def get_valid_moves(self,start,board):
         self.possible_moves = []
-        self.possible_moves += [self.name]
+        self.possible_moves += [(0,0)]
     def first(self):
         self.firstMove = False
         pass

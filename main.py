@@ -72,39 +72,39 @@ def main():
                     print("Resetting game ... ")
                     sleep(1)
                     main()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if get_cr(pygame.mouse.get_pos()) == selected: # this checks to see if the same square has been pressed twice by the user
-                    clicks.clear()
-                    selected = ()
-                else:
-                    selected = get_cr(pygame.mouse.get_pos())
-                    clicks.append(selected)
-
-                if len(clicks) == 2:
-                    print(f"TURN {game.turn}")
-                    start = game.board.getSpot(clicks[0])
-                    end = game.board.getSpot(clicks[1])
-                    if start.Piece == 0 or start == end:
+            if not game.isChecked():    
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if get_cr(pygame.mouse.get_pos()) == selected: # this checks to see if the same square has been pressed twice by the user
                         clicks.clear()
-                        selected = ()    
-                        continue
-                    elif start.Piece.color == game.turn:
-                        if not game.isChecked():
-                            if game.move(start,end, game.screen):
-                                game.changeTurn()
-                                print(f"TURN CHANGED TO {game.turn}")
-                            else:
-                                print('Invalid Move','This peice cant move there')
-                                print(start.pos, end.pos)
-                                clicks.clear()
-                                selected = ()
-                                continue
-                        else:
-                            print("THE PLAY IS IN CHECKKKK ")
+                        selected = ()
                     else:
-                        print("Wrong Trun", 'It is not your turn right now')
-                    clicks.clear()
-                    selected = ()
+                        selected = get_cr(pygame.mouse.get_pos())
+                        clicks.append(selected)
+
+                    if len(clicks) == 2:
+                        print(f"TURN {game.turn}")
+                        start = game.board.getSpot(clicks[0])
+                        end = game.board.getSpot(clicks[1])
+                        if start.Piece == 0 or start == end:
+                            clicks.clear()
+                            selected = ()    
+                            continue
+                        elif start.Piece.color == game.turn:
+                                if game.move(start,end, game.screen):
+                                    game.changeTurn()
+                                    print(f"TURN CHANGED TO {game.turn}")
+                                else:
+                                    print('Invalid Move','This peice cant move there')
+                                    print(start.pos, end.pos)
+                                    clicks.clear()
+                                    selected = ()
+                                    continue
+                        else:
+                            print("Wrong Trun", 'It is not your turn right now')
+                        clicks.clear()
+                        selected = ()
+            else:
+                game.gameOver= True
 
                 # start = game.board.getSpot(get_cr(selected))
 
