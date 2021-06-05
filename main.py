@@ -60,7 +60,7 @@ def main():
 
 
 
-    while run:
+    while not game.gameOver:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -82,15 +82,18 @@ def main():
                         selected = ()    
                         continue
                     elif start.Piece.color == game.turn:
-                        if game.board.move(start,end, game.screen):
-                            game.changeTurn()
-                            print(f"TURN CHANGED TO {game.turn}")
+                        if not game.isChecked():
+                            if game.move(start,end, game.screen):
+                                game.changeTurn()
+                                print(f"TURN CHANGED TO {game.turn}")
+                            else:
+                                print('Invalid Move','This peice cant move there')
+                                print(start.pos, end.pos)
+                                clicks.clear()
+                                selected = ()
+                                continue
                         else:
-                            print('Invalid Move','This peice cant move there')
-                            print(start.pos, end.pos)
-                            clicks.clear()
-                            selected = ()
-                            continue
+                            print("THE PLAY IS IN CHECKKKK ")
                     else:
                         print("Wrong Trun", 'It is not your turn right now')
                     clicks.clear()
@@ -102,3 +105,22 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+"""
+
+
+[
+ [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)],
+ [(0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1)],
+ [(0, 2), (1, 2), (2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (7, 2)],
+ [(0, 3), (1, 3), (2, 3), (3, 3), (4, 3), (5, 3), (6, 3), (7, 3)],
+ [(0, 4), (1, 4), (2, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 4)],
+ [(0, 5), (1, 5), (2, 5), (3, 5), (4, 5), (5, 5), (6, 5), (7, 5)],
+ [(0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)],
+ [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7)]
+]
+
+
+
+"""

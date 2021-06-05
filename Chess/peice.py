@@ -12,6 +12,7 @@ class Piece():
         self.name:str
         self.x:int
         self.y:int
+        self.pos = (col,row)
         self.getPos()
         self.possible_moves = []
     
@@ -47,7 +48,7 @@ class Piece():
         screen.blit(self.image, pygame.Rect(self.x+10, self.y+10, 100 ,10 ))
         pygame.display.update()
 
-    def horizontal_moves(self,start,end,board):
+    def horizontal_moves(self,start,board):
         for i in range(start.col-1, -1, -1):
             spot = board[start.row][i]
             if spot.Piece == 0 or spot.Piece.color != self.color:
@@ -109,7 +110,8 @@ class King(Piece):
         super(King, self).__init__(col,row,color)
         self.isCastled = False
         self.name = "King"
-    
+    def get_valid_moves(self,start,board):
+        return ["HELLO"]
     def canMove(self, start:object, end:object, board:object) -> bool:
         # TODO: write the conditions for a stalements and what not 
         if end.Piece:
@@ -138,10 +140,13 @@ class Queen(Piece):
         super(Queen, self).__init__(col,row,color)
         self.name = "Queen"
 
-    def canMove(self, start:object, end:object, board:object) -> bool:
+    def get_valid_moves(self,start,board):
         self.possible_moves = []
-        self.possible_moves += self.horizontal_moves(start,end,board)
+        self.possible_moves += self.horizontal_moves(start,board)
         self.possible_moves += self.diagonal_moves((start.col,start.row),board)
+
+    def canMove(self, start:object, end:object, board:object) -> bool:
+        self.get_valid_moves(start,board)
         if end in self.possible_moves:
             return True
         return False
@@ -153,7 +158,8 @@ class Knight(Piece):
     def __init__(self,col,row,color) -> None:
         super(Knight, self).__init__(col,row,color)
         self.name = "Knight"
-
+    def get_valid_moves(self,start,end):
+        return ["HELLO"]
     def canMove(self, start:object, end:object, board:object):
         x = abs(start.col - end.col)
         y = abs(start.row - end.row)
@@ -181,11 +187,14 @@ class Bishop(Piece):
 
     def endLoop(self) -> StopIteration:
         raise StopIteration
-
-    def canMove(self, start:object, end:object, board:object):
+    
+    def get_valid_moves(self, start, board):
         self.possible_moves = []
         start_spot = (start.col, start.row)
         self.possible_moves += self.diagonal_moves(start_spot,board)
+
+    def canMove(self, start:object ,end:object, board:object):
+        self.get_valid_moves(start, board)
         if end in self.possible_moves:
             return True 
         return False
@@ -198,11 +207,13 @@ class Rook(Piece):
         super(Rook, self).__init__(col,row,color)
         self.name = "Rook"
         
-
-    def canMove(self, start:object, end:object, board:object):
+    def get_valid_moves(self,start,board):
         self.possible_moves = []
         ## Horizontal movements of the piece 
-        self.possible_moves += self.horizontal_moves(start,end,board)
+        self.possible_moves += self.horizontal_moves(start,board)
+
+    def canMove(self, start:object, end:object, board:object):
+        self.get_valid_moves(start,board)
         if end in set(self.possible_moves):
             print(set(self.possible_moves))
             return True
@@ -215,6 +226,9 @@ class Pawn(Piece):
         self.firstMove = True
         self.promoted = False
     
+    def get_valid_moves(self,start,board):
+        self.possible_moves = []
+        self.possible_moves += [self.name]
     def first(self):
         self.firstMove = False
         pass
