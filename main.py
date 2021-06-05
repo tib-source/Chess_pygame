@@ -1,7 +1,9 @@
+from pygame.constants import KEYDOWN
 from Chess.game import Game
 from Chess.board import Board
 import pygame
 from Chess.constants import *
+from time import sleep
 import pprint
 # Game Logic
 
@@ -65,6 +67,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            if event.type == KEYDOWN:
+                if event.key == pygame.K_r:
+                    print("Resetting game ... ")
+                    sleep(1)
+                    main()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if get_cr(pygame.mouse.get_pos()) == selected: # this checks to see if the same square has been pressed twice by the user
                     clicks.clear()
