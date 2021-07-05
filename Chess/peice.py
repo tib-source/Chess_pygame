@@ -1,4 +1,3 @@
-from typing import final
 import pygame
 from .constants import BLACK, BOARD_LENGTH, SQUARE, WHITE
 
@@ -109,10 +108,17 @@ class King(Piece):
         super(King, self).__init__(col,row,color)
         self.isCastled = False
         self.name = "King"
+        self.moved = False
+        self.number_of_moves = 0
+
     def get_valid_moves(self,start,board):
         return ["HELLO"]
+
     def canMove(self, start:object, end:object, board:object) -> bool:
-        # TODO: write the conditions for a stalements and what not 
+        # TODO: write the conditions for a stalements and what not #
+        """
+        TODO: need to add code that checks if move is a castle attempt then run the isValidCastle function 
+        """
         if end.Piece:
             if end.Piece.color == self.color:
                 return False
@@ -123,15 +129,56 @@ class King(Piece):
             if (x,y) in moves: 
                 return True
         return False
-    def isValidCastle(self, Board, start, end) -> bool:
+
+    def isValidCastle(self, Board, start, end, rook_pk: int) -> bool:
         # TODO: write the logic for checking castling here
+        
+        """
+        root_pk is a number either 0 or 1 that identifies which rook is being targeted for castle
+
+        first - function should check wheather or not castle has already been made
+        then check if the king had moved before this or if the king is in check - if so, return False 
+        then check if the rook had moved before this - if so, return False 
+        Check if there are any pieces between the two - if so, return False 
+        if all the above conditions pass - return True
+        
+        official requirements for a castle 
+
+        Castling is permissible provided all of the following conditions hold:[4]
+            The castling must be kingside or queenside.[5]
+            Neither the king nor the chosen rook has previously moved.
+            There are no pieces between the king and the chosen rook.
+            The king is not currently in check.
+            The king does not pass through a square that is attacked by an enemy piece.
+            The king does not end up in check. (True of any legal move.)
+
+        source: https://en.wikipedia.org/wiki/Castling#Requirements
+        
+        """
+        # if not self.isCastled: 
+        #     rooks = self.get_rooks()
+        #     if self.number_of_moves == 0:
+        #         pass
         pass
 
 
-    def Castle(self, start, end) -> None:
+    def castle(self, start, end) -> None:
         # TODO: write the logic for performing a castling here
         pass
     
+    def get_rooks(self):
+        import main
+        color = self.color
+        color_str = 'Black 'if color == BLACK else 'WHITE'
+        num = ['0', '1']
+        rooks = []
+        for i in num: 
+            rook_name = f"main.game.board.Rook_{i}_{color_str}"
+            rook = exec(rook_name)
+            rooks.append(rook)
+        return rooks
+
+
 
     
 class Queen(Piece):

@@ -1,8 +1,6 @@
-from Chess.peice import King
 from Chess.constants import BLACK, BOARD_LENGTH, WHITE,SQUARE
 from .board import Board
 import pygame
-import pprint
 
 class Game:
     # chess_notation= {
@@ -48,7 +46,12 @@ class Game:
     
 
     ### TODO: This function need to be really fast so threading should probably be added
+    
     def isChecked(self):
+        """
+        TODO: need to add a function that checks if the king has any posible moves
+        return identifiers so that other functions know which king has been checked
+        """
         self.Moves = {}
         king = self.board.King_0_Black if self.turn == BLACK else self.board.King_0_WHITE
         king_spot = self.board.getSpot(king.pos)

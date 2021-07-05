@@ -1,6 +1,5 @@
 from pygame.constants import KEYDOWN
 from Chess.game import Game
-from Chess.board import Board
 import pygame
 from Chess.constants import *
 from time import sleep
@@ -40,23 +39,9 @@ def get_cr(pos):
     row = pos[1]//SQUARE
     return col,row
 
+
 # Pygame GUI 
 def main():
-    #initialise the pygame module here   
-    pygame.init()
-
-    size = (WIDTH,HEIGHT)
-    screen = pygame.display.set_mode(size)
-    screen.fill(BLACK)
-    pygame.display.set_caption('Chess')
-    clock = pygame.time.Clock()
-
-    game = Game(screen)
-    game.create()
-    pprint.pprint(game.board.gameBoard)
-    run = True
-    ###
-
     selected = ()
     clicks = []
 
@@ -111,6 +96,19 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
+
+        #initialise the pygame module here   
+    pygame.init()
+
+    size = (WIDTH,HEIGHT)
+    screen = pygame.display.set_mode(size)
+    screen.fill(BLACK)
+    pygame.display.set_caption('Chess')
+    clock = pygame.time.Clock()
+    game = Game(screen)
+    game.create()
+    pprint.pprint(game.board.gameBoard)
+    ###
     main()
 
 

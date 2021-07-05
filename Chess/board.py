@@ -1,4 +1,3 @@
-from Chess import game
 import pygame
 from .peice import *
 from .spot import Spot
@@ -14,15 +13,6 @@ class Board:
     def __init__(self) -> None:
         self.board = [[] for _ in range(8)]
         self.gameBoard = [[(col , row) for col in range(0, BOARD_LENGTH)]for row in range(0, BOARD_LENGTH)]
-
-        self.Rook_0_WHITE =   Rook( self.gameBoard[7][0][0] ,  self.gameBoard[7][0][1] ,  WHITE)
-        self.Bishop_0_WHITE = Bishop( self.gameBoard[7][1][0] ,  self.gameBoard[7][1][1] ,  WHITE)    
-        self.Knight_0_WHITE = Knight( self.gameBoard[7][2][0] ,  self.gameBoard[7][2][1] ,  WHITE)     
-        self.King_0_WHITE =  Queen( self.gameBoard[7][3][0] ,  self.gameBoard[7][3][1] ,  WHITE)    
-        self.Queen_0_WHITE =  King( self.gameBoard[7][4][0] ,  self.gameBoard[7][4][1] ,  WHITE)     
-        self.Knight_1_WHITE = Knight( self.gameBoard[7][5][0] ,  self.gameBoard[7][5][1] ,  WHITE)      
-        self.Bishop_1_WHITE = Bishop( self.gameBoard[7][6][0] ,  self.gameBoard[7][6][1] ,  WHITE)      
-        self.Rook_1_WHITE =   Rook( self.gameBoard[7][7][0] ,  self.gameBoard[7][7][1] ,  WHITE)
         
 #TODO: Make a constant for the initial rows and cols of the peices
     def getSpot(self,pos):
