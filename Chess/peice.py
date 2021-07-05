@@ -130,7 +130,7 @@ class King(Piece):
                 return True
         return False
 
-    def isValidCastle(self, Board, start, end, rook_pk: int) -> bool:
+    def isValidCastle(self, board, start, end, rook_pk: int) -> bool:
         # TODO: write the logic for checking castling here
         
         """
@@ -155,10 +155,12 @@ class King(Piece):
         source: https://en.wikipedia.org/wiki/Castling#Requirements
         
         """
-        # if not self.isCastled: 
-        #     rooks = self.get_rooks()
-        #     if self.number_of_moves == 0:
-        #         pass
+        if not self.isCastled: 
+            rooks = self.get_rooks()
+            rook = rooks[rook_pk]
+            if self.number_of_moves == rook.number_of_moves == 0 :
+                #check for other peices between
+                pass
         pass
 
 
@@ -166,14 +168,13 @@ class King(Piece):
         # TODO: write the logic for performing a castling here
         pass
     
-    def get_rooks(self):
-        import main
+    def get_rooks(self, board):
         color = self.color
         color_str = 'Black 'if color == BLACK else 'WHITE'
         num = ['0', '1']
         rooks = []
         for i in num: 
-            rook_name = f"main.game.board.Rook_{i}_{color_str}"
+            rook_name = f"board.Rook_{i}_{color_str}"
             rook = exec(rook_name)
             rooks.append(rook)
         return rooks
@@ -252,6 +253,7 @@ class Rook(Piece):
     def __init__(self,col,row,color) -> None:
         super(Rook, self).__init__(col,row,color)
         self.name = "Rook"
+        self.number_of_moves = 0
         
     def get_valid_moves(self,start,board):
         self.possible_moves = []
