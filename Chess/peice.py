@@ -314,7 +314,7 @@ class Pawn(Piece):
                 else: return False       
         else:
             self.possible_moves = []
-            self.possible_moves += self.horizontal_moves(start,end,board)
+            self.possible_moves += self.horizontal_moves(start,board)
             self.possible_moves += self.diagonal_moves((start.col,start.row),board)
             if end in self.possible_moves:
                 return True
